@@ -67,7 +67,7 @@ apache:
                 - All
     user: www-data
     group: www-data
-    default_vhost: true
+    default_vhost: false
     mpm_module: prefork
 php:
     version: '54'
