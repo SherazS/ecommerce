@@ -1,0 +1,11 @@
+<dl>
+    <?php foreach ($this->entries as $entry): ?>
+    <dt><?php echo $this->escape($entry->category) ?></dt>
+    <dd><?php echo $this->escape($entry->description) ?></dd>
+    <dd><?php echo $this->escape($entry->cost) ?></dd>
+    <?php endforeach ?>
+</dl>
+
+<span>phpinfo() below</span>
+
+<?php echo phpinfo(); ?>

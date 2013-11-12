@@ -3,8 +3,54 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0a5397e6c28586645ae172cad36adf6f",
+    "hash": "072f4a00a996f6ebb8f5eb06d0bedb35",
     "packages": [
+        {
+            "name": "pear/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/Log.git",
+                "reference": "f483447ae25c618460e5e29d63bc36583ba876e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/Log/zipball/f483447ae25c618460e5e29d63bc36583ba876e7",
+                "reference": "f483447ae25c618460e5e29d63bc36583ba876e7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Log/",
+                    "Log.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                ""
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jon Parise",
+                    "email": "jon@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PEAR Logging Framework",
+            "homepage": "https://github.com/pear/Log",
+            "keywords": [
+                "log",
+                "logging"
+            ],
+            "time": "2013-03-27 03:03:36"
+        },
         {
             "name": "phing/phing",
             "version": "2.6.1",
@@ -179,9 +225,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "pear/log": 20
+    },
     "platform": [
 
     ],

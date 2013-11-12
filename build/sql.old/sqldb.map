@@ -1,0 +1,3 @@
+# Sqlfile -> Database map
+mycms.sql=mycms
+schema.sql=mycms

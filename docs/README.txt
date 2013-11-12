@@ -14,13 +14,13 @@ Setting Up Your VHOST
 The following is a sample VHOST you might want to consider for your project.
 
 <VirtualHost *:80>
-   DocumentRoot "/home/sheraz/vagrant/lamp/www/Temp/public"
-   ServerName Temp.local
+   DocumentRoot "/var/www/ZendApp/public"
+   ServerName ZendApp.local
 
    # This should be omitted in the production environment
    SetEnv APPLICATION_ENV development
 
-   <Directory "/home/sheraz/vagrant/lamp/www/Temp/public">
+   <Directory "/var/www/ZendApp/public">
        Options Indexes MultiViews FollowSymLinks
        AllowOverride All
        Order allow,deny
