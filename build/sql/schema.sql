@@ -4,64 +4,90 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
--- cms_article
+-- product
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `cms_article`;
+DROP TABLE IF EXISTS `product`;
 
-CREATE TABLE `cms_article`
+CREATE TABLE `product`
 (
-    `art_id` INTEGER NOT NULL AUTO_INCREMENT,
-    `art_user_id` INTEGER NOT NULL,
-    `art_cat_id` TINYINT NOT NULL,
-    `art_title` VARCHAR(64) NOT NULL,
-    `art_text` TEXT NOT NULL,
-    PRIMARY KEY (`art_id`),
-    INDEX `FI_egory2article` (`art_cat_id`),
-    INDEX `FI_r2article` (`art_user_id`),
-    CONSTRAINT `category2article`
-        FOREIGN KEY (`art_cat_id`)
-        REFERENCES `cms_category` (`cat_id`),
-    CONSTRAINT `user2article`
-        FOREIGN KEY (`art_user_id`)
-        REFERENCES `user_main` (`user_id`)
+    `product_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `product_category_id` TINYINT NOT NULL,
+    `product_name` VARCHAR(64) NOT NULL,
+    `product_image` VARCHAR(64) NOT NULL,
+    `product_description` VARCHAR(64) NOT NULL,
+    `product_price` INTEGER NOT NULL,
+    `product_quantity` INTEGER NOT NULL,
+    PRIMARY KEY (`product_id`),
+    INDEX `FI_duct_to_category` (`product_category_id`),
+    CONSTRAINT `product_to_category`
+        FOREIGN KEY (`product_category_id`)
+        REFERENCES `category` (`category_id`)
 ) ENGINE=InnoDB;
 
-INSERT INTO cms_article (art_user_id, art_cat_id, art_title, art_text)
-VALUES (123, 1, 'New article', 'This is the first article added to the database');
-
 -- ---------------------------------------------------------------------
--- cms_category
+-- category
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `cms_category`;
+DROP TABLE IF EXISTS `category`;
 
-CREATE TABLE `cms_category`
+CREATE TABLE `category`
 (
-    `cat_id` TINYINT NOT NULL AUTO_INCREMENT,
-    `cat_name` VARCHAR(32) NOT NULL,
-    PRIMARY KEY (`cat_id`)
+    `category_id` TINYINT NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB;
 
-INSERT INTO cms_category (cat_name)
-VALUES ('Initiation');
-
 -- ---------------------------------------------------------------------
--- user_main
+-- device
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_main`;
+DROP TABLE IF EXISTS `device`;
 
-CREATE TABLE `user_main`
+CREATE TABLE `device`
 (
-    `user_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `device_id` TINYINT NOT NULL AUTO_INCREMENT,
+    `device_name` VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`device_id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- compat
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `compat`;
+
+CREATE TABLE `compat`
+(
+    `compat_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `compat_product_id` INTEGER NOT NULL,
+    `compat_device_id` TINYINT NOT NULL,
+    PRIMARY KEY (`compat_id`),
+    INDEX `FI_pat_to_product` (`compat_product_id`),
+    INDEX `FI_pat_to_device` (`compat_device_id`),
+    CONSTRAINT `compat_to_product`
+        FOREIGN KEY (`compat_product_id`)
+        REFERENCES `product` (`product_id`),
+    CONSTRAINT `compat_to_device`
+        FOREIGN KEY (`compat_device_id`)
+        REFERENCES `device` (`device_id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- user
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user`
+(
+    `user_id` TINYINT NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(32) NOT NULL,
     `user_pass` VARCHAR(32) NOT NULL,
     `user_email` VARCHAR(64) NOT NULL,
+    `user_type` VARCHAR(16) NOT NULL,
     PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB;
 
-INSERT INTO user_main (user_id, user_name, user_pass, user_email)
-VALUES (123, 'New Name', 'Password', 'name@email.com');
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

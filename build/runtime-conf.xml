@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
  <log>
-  <ident>propel-mycms</ident>
+  <ident>propel-induction</ident>
   <level>7</level>
  </log>
  <propel>
-  <datasources default="mycms">  
-   <datasource id="mycms">
+  <datasources default="induction">  
+   <datasource id="induction">
     <adapter>mysql</adapter>    
     <connection>
-     <dsn>mysql:host=localhost;dbname=mycms</dsn>
+     <dsn>mysql:host=localhost;dbname=induction</dsn>
      <user>root</user>
      <password>sqlpass</password>
     </connection>    

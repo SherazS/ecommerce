@@ -4,21 +4,21 @@
 $conf = array (
   'datasources' => 
   array (
-    'mycms' => 
+    'induction' => 
     array (
       'adapter' => 'mysql',
       'connection' => 
       array (
-        'dsn' => 'mysql:host=localhost;dbname=mycms',
+        'dsn' => 'mysql:host=localhost;dbname=induction',
         'user' => 'root',
         'password' => 'sqlpass',
       ),
     ),
-    'default' => 'mycms',
+    'default' => 'induction',
   ),
   'log' => 
   array (
-    'ident' => 'propel-mycms',
+    'ident' => 'propel-induction',
     'level' => '7',
   ),
   'generator_version' => '1.7.0',

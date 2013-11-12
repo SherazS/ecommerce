@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database name="mycms" defaultIdMethod="native">
-  <table name="cms_article">
-    <column name="art_id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
-    <column name="art_user_id" type="INTEGER" required="true"/>
-    <column name="art_cat_id" type="TINYINT" required="true"/>
-    <column name="art_title" type="VARCHAR" size="64" required="true"/>
-    <column name="art_text" type="LONGVARCHAR" required="true"/>
-    <foreign-key foreignTable="cms_category" name="category2article">
-      <reference local="art_cat_id" foreign="cat_id"/>
-    </foreign-key>
-    <foreign-key foreignTable="user_main" name="user2article">
-      <reference local="art_user_id" foreign="user_id"/>
+<database name="induction" defaultIdMethod="native">
+  <table name="product">
+    <column name="product_id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+    <column name="product_category_id" type="TINYINT" required="true"/>
+    <column name="product_name" type="VARCHAR" size="64" required="true"/>
+    <column name="product_image" type="VARCHAR" size="64" required="true"/>
+    <column name="product_description" type="VARCHAR" size="64" required="true"/>
+    <column name="product_price" type="INTEGER" required="true"/>
+    <column name="product_quantity" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="category" name="product_to_category">
+      <reference local="product_category_id" foreign="category_id"/>
     </foreign-key>
   </table>
-  <table name="cms_category">
-    <column name="cat_id" type="TINYINT" primaryKey="true" required="true" autoIncrement="true"/>
-    <column name="cat_name" type="VARCHAR" size="32" required="true"/>
+  <table name="category">
+    <column name="category_id" type="TINYINT" primaryKey="true" required="true" autoIncrement="true"/>
+    <column name="category_name" type="VARCHAR" size="64" required="true"/>
   </table>
-  <table name="user_main">
-    <column name="user_id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+  <table name="device">
+    <column name="device_id" type="TINYINT" primaryKey="true" required="true" autoIncrement="true"/>
+    <column name="device_name" type="VARCHAR" size="64" required="true"/>
+  </table>
+  <table name="compat">
+    <column name="compat_id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+    <column name="compat_product_id" type="INTEGER" required="true"/>
+    <column name="compat_device_id" type="TINYINT" required="true"/>
+    <foreign-key foreignTable="product" name="compat_to_product">
+      <reference local="compat_product_id" foreign="product_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="device" name="compat_to_device">
+      <reference local="compat_device_id" foreign="device_id"/>
+    </foreign-key>
+  </table>
+  <table name="user">
+    <column name="user_id" type="TINYINT" primaryKey="true" required="true" autoIncrement="true"/>
     <column name="user_name" type="VARCHAR" size="32" required="true"/>
     <column name="user_pass" type="VARCHAR" size="32" required="true"/>
     <column name="user_email" type="VARCHAR" size="64" required="true"/>
+    <column name="user_type" type="VARCHAR" size="16" required="true"/>
   </table>
 </database>
