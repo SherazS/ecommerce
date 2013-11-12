@@ -24,8 +24,9 @@
     <div id="notice" style="clear:both"><br />
         <span>After "vagrant up" run the following commands to load the database</span><br />
         <span>vagrant ssh</span><br />
-        <span>mysqladmin -u root -psqlpass create mycms</span><br />
-        <span>mysql -u root -psqlpass mycms &lt; /var/www/build/sql/schema.sql</span><br /><br /><br />
+        <span>mysqladmin -u root -psqlpass create induction</span><br />
+        <span>mysql -u root -psqlpass induction &lt; /var/www/build/sql/schema.sql</span><br />
+        <span>mysql -u root -psqlpass induction &lt; /var/www/build/sql/load.sql</span><br /><br /><br />
 </div>
  
 <?php echo $this->layout()->content ?>
