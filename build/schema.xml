@@ -24,17 +24,18 @@
     <column name="compat_id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
     <column name="compat_product_id" type="INTEGER" required="true"/>
     <column name="compat_device_id" type="TINYINT" required="true"/>
-    <foreign-key foreignTable="product" name="compat_to_product">
+    <foreign-key foreignTable="product" name="product" phpName="Product" refPhpName="Compat">
       <reference local="compat_product_id" foreign="product_id"/>
     </foreign-key>
-    <foreign-key foreignTable="device" name="compat_to_device">
+    <foreign-key foreignTable="device" name="device" phpName="Device" refPhpName="Compat">
       <reference local="compat_device_id" foreign="device_id"/>
     </foreign-key>
   </table>
   <table name="user">
     <column name="user_id" type="TINYINT" primaryKey="true" required="true" autoIncrement="true"/>
     <column name="user_name" type="VARCHAR" size="32" required="true"/>
-    <column name="user_pass" type="VARCHAR" size="32" required="true"/>
+    <column name="user_hash" type="VARCHAR" size="64" required="true"/>
+    <column name="user_salt" type="VARCHAR" size="32" required="true"/>
     <column name="user_email" type="VARCHAR" size="64" required="true"/>
     <column name="user_type" type="VARCHAR" size="16" required="true"/>
   </table>

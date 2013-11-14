@@ -24,13 +24,13 @@ abstract class BaseUserPeer
     const TM_CLASS = 'UserTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /** the column name for the user_id field */
     const USER_ID = 'user.user_id';
@@ -38,8 +38,11 @@ abstract class BaseUserPeer
     /** the column name for the user_name field */
     const USER_NAME = 'user.user_name';
 
-    /** the column name for the user_pass field */
-    const USER_PASS = 'user.user_pass';
+    /** the column name for the user_hash field */
+    const USER_HASH = 'user.user_hash';
+
+    /** the column name for the user_salt field */
+    const USER_SALT = 'user.user_salt';
 
     /** the column name for the user_email field */
     const USER_EMAIL = 'user.user_email';
@@ -66,12 +69,12 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[UserPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('UserId', 'UserName', 'UserPass', 'UserEmail', 'UserType', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'userName', 'userPass', 'userEmail', 'userType', ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::USER_ID, UserPeer::USER_NAME, UserPeer::USER_PASS, UserPeer::USER_EMAIL, UserPeer::USER_TYPE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'USER_NAME', 'USER_PASS', 'USER_EMAIL', 'USER_TYPE', ),
-        BasePeer::TYPE_FIELDNAME => array ('user_id', 'user_name', 'user_pass', 'user_email', 'user_type', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('UserId', 'UserName', 'UserHash', 'UserSalt', 'UserEmail', 'UserType', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('userId', 'userName', 'userHash', 'userSalt', 'userEmail', 'userType', ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::USER_ID, UserPeer::USER_NAME, UserPeer::USER_HASH, UserPeer::USER_SALT, UserPeer::USER_EMAIL, UserPeer::USER_TYPE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID', 'USER_NAME', 'USER_HASH', 'USER_SALT', 'USER_EMAIL', 'USER_TYPE', ),
+        BasePeer::TYPE_FIELDNAME => array ('user_id', 'user_name', 'user_hash', 'user_salt', 'user_email', 'user_type', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -81,12 +84,12 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'UserName' => 1, 'UserPass' => 2, 'UserEmail' => 3, 'UserType' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'userName' => 1, 'userPass' => 2, 'userEmail' => 3, 'userType' => 4, ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::USER_ID => 0, UserPeer::USER_NAME => 1, UserPeer::USER_PASS => 2, UserPeer::USER_EMAIL => 3, UserPeer::USER_TYPE => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'USER_NAME' => 1, 'USER_PASS' => 2, 'USER_EMAIL' => 3, 'USER_TYPE' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'user_name' => 1, 'user_pass' => 2, 'user_email' => 3, 'user_type' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('UserId' => 0, 'UserName' => 1, 'UserHash' => 2, 'UserSalt' => 3, 'UserEmail' => 4, 'UserType' => 5, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('userId' => 0, 'userName' => 1, 'userHash' => 2, 'userSalt' => 3, 'userEmail' => 4, 'userType' => 5, ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::USER_ID => 0, UserPeer::USER_NAME => 1, UserPeer::USER_HASH => 2, UserPeer::USER_SALT => 3, UserPeer::USER_EMAIL => 4, UserPeer::USER_TYPE => 5, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('USER_ID' => 0, 'USER_NAME' => 1, 'USER_HASH' => 2, 'USER_SALT' => 3, 'USER_EMAIL' => 4, 'USER_TYPE' => 5, ),
+        BasePeer::TYPE_FIELDNAME => array ('user_id' => 0, 'user_name' => 1, 'user_hash' => 2, 'user_salt' => 3, 'user_email' => 4, 'user_type' => 5, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -162,13 +165,15 @@ abstract class BaseUserPeer
         if (null === $alias) {
             $criteria->addSelectColumn(UserPeer::USER_ID);
             $criteria->addSelectColumn(UserPeer::USER_NAME);
-            $criteria->addSelectColumn(UserPeer::USER_PASS);
+            $criteria->addSelectColumn(UserPeer::USER_HASH);
+            $criteria->addSelectColumn(UserPeer::USER_SALT);
             $criteria->addSelectColumn(UserPeer::USER_EMAIL);
             $criteria->addSelectColumn(UserPeer::USER_TYPE);
         } else {
             $criteria->addSelectColumn($alias . '.user_id');
             $criteria->addSelectColumn($alias . '.user_name');
-            $criteria->addSelectColumn($alias . '.user_pass');
+            $criteria->addSelectColumn($alias . '.user_hash');
+            $criteria->addSelectColumn($alias . '.user_salt');
             $criteria->addSelectColumn($alias . '.user_email');
             $criteria->addSelectColumn($alias . '.user_type');
         }

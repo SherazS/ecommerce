@@ -63,12 +63,12 @@ CREATE TABLE `compat`
     `compat_product_id` INTEGER NOT NULL,
     `compat_device_id` TINYINT NOT NULL,
     PRIMARY KEY (`compat_id`),
-    INDEX `FI_pat_to_product` (`compat_product_id`),
-    INDEX `FI_pat_to_device` (`compat_device_id`),
-    CONSTRAINT `compat_to_product`
+    INDEX `FI_duct` (`compat_product_id`),
+    INDEX `FI_ice` (`compat_device_id`),
+    CONSTRAINT `product`
         FOREIGN KEY (`compat_product_id`)
         REFERENCES `product` (`product_id`),
-    CONSTRAINT `compat_to_device`
+    CONSTRAINT `device`
         FOREIGN KEY (`compat_device_id`)
         REFERENCES `device` (`device_id`)
 ) ENGINE=InnoDB;
@@ -83,7 +83,8 @@ CREATE TABLE `user`
 (
     `user_id` TINYINT NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(32) NOT NULL,
-    `user_pass` VARCHAR(32) NOT NULL,
+    `user_hash` VARCHAR(64) NOT NULL,
+    `user_salt` VARCHAR(32) NOT NULL,
     `user_email` VARCHAR(64) NOT NULL,
     `user_type` VARCHAR(16) NOT NULL,
     PRIMARY KEY (`user_id`)

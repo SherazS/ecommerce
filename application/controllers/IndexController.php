@@ -9,18 +9,17 @@ class IndexController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {
+    {/*
         $c = new Criteria();
         $c->setLimit(10);
 
         $select  = ProductPeer::doSelect($c);
 
-        echo "Products<br />";
+        echo "<br /><br /><br /><br /><p>Products</p>";
 
         $productArray = array();
 
-        foreach($select as $value) 
-        {
+        foreach($select as $value) {
             $row = array();
             $row['product id'           ] = $value->getProductId();
             $row['product category id'  ] = $value->getProductCategoryId();
@@ -35,8 +34,7 @@ class IndexController extends Zend_Controller_Action
             $productArray[] = $row;
         }
         foreach ($productArray as $row) {
-            foreach($row as $key=>$value)
-            {   
+            foreach($row as $key=>$value) {   
                 echo $key . ": ". $value . "<br />";
             }
             echo "<br />";
@@ -44,12 +42,11 @@ class IndexController extends Zend_Controller_Action
 
         $select  = CategoryPeer::doSelect($c);
 
-        echo "Categories<br />";
+        echo "<p>Categories</p>";
 
         $categoryArray = array();
 
-        foreach($select as $value) 
-        {
+        foreach($select as $value) {
             $row = array();
             $row['category id'  ] = $value->getCategoryId();
             $row['category name'] = $value->getCategoryName();
@@ -57,8 +54,7 @@ class IndexController extends Zend_Controller_Action
             $categoryArray[] = $row;
         }
         foreach ($categoryArray as $row) {
-            foreach($row as $key=>$value)
-            {   
+            foreach($row as $key=>$value) {   
                 echo $key . ": ". $value . "<br />";
             }
             echo "<br />";
@@ -66,12 +62,11 @@ class IndexController extends Zend_Controller_Action
 
         $select  = DevicePeer::doSelect($c);
 
-        echo "Devices<br />";
+        echo "<p>Devices</p>";
 
         $deviceArray = array();
 
-        foreach($select as $value) 
-        {
+        foreach($select as $value) {
             $row = array();
             $row['device id'  ] = $value->getDeviceId();
             $row['device name'] = $value->getDeviceName();
@@ -79,8 +74,7 @@ class IndexController extends Zend_Controller_Action
             $deviceArray[] = $row;
         }
         foreach ($deviceArray as $row) {
-            foreach($row as $key=>$value)
-            {   
+            foreach($row as $key=>$value) {   
                 echo $key . ": ". $value . "<br />";
             }
             echo "<br />";

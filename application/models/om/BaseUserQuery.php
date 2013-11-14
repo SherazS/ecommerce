@@ -8,13 +8,15 @@
  *
  * @method UserQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method UserQuery orderByUserName($order = Criteria::ASC) Order by the user_name column
- * @method UserQuery orderByUserPass($order = Criteria::ASC) Order by the user_pass column
+ * @method UserQuery orderByUserHash($order = Criteria::ASC) Order by the user_hash column
+ * @method UserQuery orderByUserSalt($order = Criteria::ASC) Order by the user_salt column
  * @method UserQuery orderByUserEmail($order = Criteria::ASC) Order by the user_email column
  * @method UserQuery orderByUserType($order = Criteria::ASC) Order by the user_type column
  *
  * @method UserQuery groupByUserId() Group by the user_id column
  * @method UserQuery groupByUserName() Group by the user_name column
- * @method UserQuery groupByUserPass() Group by the user_pass column
+ * @method UserQuery groupByUserHash() Group by the user_hash column
+ * @method UserQuery groupByUserSalt() Group by the user_salt column
  * @method UserQuery groupByUserEmail() Group by the user_email column
  * @method UserQuery groupByUserType() Group by the user_type column
  *
@@ -26,13 +28,15 @@
  * @method User findOneOrCreate(PropelPDO $con = null) Return the first User matching the query, or a new User object populated from the query conditions when no match is found
  *
  * @method User findOneByUserName(string $user_name) Return the first User filtered by the user_name column
- * @method User findOneByUserPass(string $user_pass) Return the first User filtered by the user_pass column
+ * @method User findOneByUserHash(string $user_hash) Return the first User filtered by the user_hash column
+ * @method User findOneByUserSalt(string $user_salt) Return the first User filtered by the user_salt column
  * @method User findOneByUserEmail(string $user_email) Return the first User filtered by the user_email column
  * @method User findOneByUserType(string $user_type) Return the first User filtered by the user_type column
  *
  * @method array findByUserId(int $user_id) Return User objects filtered by the user_id column
  * @method array findByUserName(string $user_name) Return User objects filtered by the user_name column
- * @method array findByUserPass(string $user_pass) Return User objects filtered by the user_pass column
+ * @method array findByUserHash(string $user_hash) Return User objects filtered by the user_hash column
+ * @method array findByUserSalt(string $user_salt) Return User objects filtered by the user_salt column
  * @method array findByUserEmail(string $user_email) Return User objects filtered by the user_email column
  * @method array findByUserType(string $user_type) Return User objects filtered by the user_type column
  *
@@ -142,7 +146,7 @@ abstract class BaseUserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `user_id`, `user_name`, `user_pass`, `user_email`, `user_type` FROM `user` WHERE `user_id` = :p0';
+        $sql = 'SELECT `user_id`, `user_name`, `user_hash`, `user_salt`, `user_email`, `user_type` FROM `user` WHERE `user_id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -303,32 +307,61 @@ abstract class BaseUserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the user_pass column
+     * Filter the query on the user_hash column
      *
      * Example usage:
      * <code>
-     * $query->filterByUserPass('fooValue');   // WHERE user_pass = 'fooValue'
-     * $query->filterByUserPass('%fooValue%'); // WHERE user_pass LIKE '%fooValue%'
+     * $query->filterByUserHash('fooValue');   // WHERE user_hash = 'fooValue'
+     * $query->filterByUserHash('%fooValue%'); // WHERE user_hash LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $userPass The value to use as filter.
+     * @param     string $userHash The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return UserQuery The current query, for fluid interface
      */
-    public function filterByUserPass($userPass = null, $comparison = null)
+    public function filterByUserHash($userHash = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($userPass)) {
+            if (is_array($userHash)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $userPass)) {
-                $userPass = str_replace('*', '%', $userPass);
+            } elseif (preg_match('/[\%\*]/', $userHash)) {
+                $userHash = str_replace('*', '%', $userHash);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(UserPeer::USER_PASS, $userPass, $comparison);
+        return $this->addUsingAlias(UserPeer::USER_HASH, $userHash, $comparison);
+    }
+
+    /**
+     * Filter the query on the user_salt column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUserSalt('fooValue');   // WHERE user_salt = 'fooValue'
+     * $query->filterByUserSalt('%fooValue%'); // WHERE user_salt LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $userSalt The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return UserQuery The current query, for fluid interface
+     */
+    public function filterByUserSalt($userSalt = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($userSalt)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $userSalt)) {
+                $userSalt = str_replace('*', '%', $userSalt);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(UserPeer::USER_SALT, $userSalt, $comparison);
     }
 
     /**

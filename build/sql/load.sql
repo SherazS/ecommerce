@@ -76,6 +76,35 @@ VALUES (
     '12'
     );
 
+INSERT INTO user (
+    user_name,
+    user_hash,
+    user_salt,
+    user_email,
+    user_type
+    )
+VALUES (
+    'root',
+    'be46e8c0974dc0bd5293f98bd9434255cc48353be13466ee6014c6a9810ca882',
+    'zfQMEzdpm7HXsk8yx7l87w==',
+    'root@local.com',
+    'Administrator'
+    );
+
+INSERT INTO user (
+    user_name,
+    user_hash,
+    user_salt,
+    user_email,
+    user_type
+    )
+VALUES (
+    'Sheraz',
+    'bee04bd0df081ad890777cbb1adf3d2cb883f0b4f3fcfdd44cf1cceb4c6cb3ba',
+    'dWvdKXeKAwFBMSKY6PosMw==',
+    'sheraz@madeupdomain.com',
+    'Standard'
+    );
 
 INSERT INTO compat (compat_product_id, compat_device_id) VALUES (1, 2);
 INSERT INTO compat (compat_product_id, compat_device_id) VALUES (2, 1);

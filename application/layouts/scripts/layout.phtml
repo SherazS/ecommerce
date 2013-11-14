@@ -3,30 +3,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Zend Framework Quickstart</title>
+  <title>Mini eCommerce Site</title>
   <?php echo $this->headLink()->appendStylesheet('/css/global.css') ?>
+  <style type="text/css">
+  #link {
+    clear:both;
+    color:red;
+  }
+  </style>
 </head>
 <body>
-<div id="header" style="background-color: #EEEEEE; height: 30px;">
+<div id="header" style="background-color: #EEEEEE;clear:both;">
     <div id="header-logo" style="float: left">
-        <span>Mini eCommerce Site</span>
+        <a href="<?php echo $this->url(
+            array('controller'=>''),
+            'default',
+            true) ?>">Mini eCommerce Site</a>
     </div>
     <div id="header-navigation" style="float: right">
         <a href="<?php echo $this->url(
-            array('controller'=>'chargers'),
+            array('controller'=>'product'),
             'default',
-            true) ?>">Chargers</a>
+            true) ?>">Products</a>
         <a href="<?php echo $this->url(
-            array('controller'=>'cases'),
+            array('controller'=>'category'),
             'default',
-            true) ?>">Cases</a>
+            true) ?>">Categories</a>
+        <a href="<?php echo $this->url(
+            array('controller'=>'user'),
+            'default',
+            true) ?>">Users</a>
     </div>
-    <div id="notice" style="clear:both"><br />
-        <span>After "vagrant up" run the following commands to load the database</span><br />
+    <div id="notice"><br />
         <span>vagrant ssh</span><br />
-        <span>mysqladmin -u root -psqlpass create induction</span><br />
-        <span>mysql -u root -psqlpass induction &lt; /var/www/build/sql/schema.sql</span><br />
-        <span>mysql -u root -psqlpass induction &lt; /var/www/build/sql/load.sql</span><br /><br /><br />
+        <span>mysqladmin -u root -psqlpass create mycms</span><br />
+        <span>mysql -u root -psqlpass mycms &lt; /var/www/build/sql/schema.sql</span>
+    </div>
 </div>
  
 <?php echo $this->layout()->content ?>
