@@ -9,86 +9,130 @@ class IndexController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {/*
-        $c = new Criteria();
-        $c->setLimit(10);
+    {
+        // get and set search parameters
+        $categoryParam = $this->getRequest()->getParam('category');
+        $deviceParam = $this->getRequest()->getParam('device');
+        $this->view->assign('selectedCategory', $categoryParam);
+        $this->view->assign('selectedDevice', $deviceParam);
 
-        $select  = ProductPeer::doSelect($c);
+        // query all device names and assign to list as search options
+        $deviceQuery = DeviceQuery::create();
 
-        echo "<br /><br /><br /><br /><p>Products</p>";
-
-        $productArray = array();
-
-        foreach($select as $value) {
-            $row = array();
-            $row['product id'           ] = $value->getProductId();
-            $row['product category id'  ] = $value->getProductCategoryId();
-            $row['product category name'] = $value->getCategory()->getCategoryName();
-            $row['product name'         ] = $value->getProductName();
-            $compat = CompatQuery::create()->filterByCompatProductId($value->getProductId())->find();
-            $row['compatibility'] = '';
-            foreach ($compat as $device) {
-                $row['compatibility'] = $row['compatibility'] . $device->getDevice()->getDeviceName() . ' ';
-             } 
-
-            $productArray[] = $row;
-        }
-        foreach ($productArray as $row) {
-            foreach($row as $key=>$value) {   
-                echo $key . ": ". $value . "<br />";
-            }
-            echo "<br />";
-        }
-
-        $select  = CategoryPeer::doSelect($c);
-
-        echo "<p>Categories</p>";
-
-        $categoryArray = array();
-
-        foreach($select as $value) {
-            $row = array();
-            $row['category id'  ] = $value->getCategoryId();
-            $row['category name'] = $value->getCategoryName();
-            
-            $categoryArray[] = $row;
-        }
-        foreach ($categoryArray as $row) {
-            foreach($row as $key=>$value) {   
-                echo $key . ": ". $value . "<br />";
-            }
-            echo "<br />";
-        }
-
-        $select  = DevicePeer::doSelect($c);
-
-        echo "<p>Devices</p>";
-
+        $selectDevices = $deviceQuery->find();
         $deviceArray = array();
-
-        foreach($select as $value) {
-            $row = array();
-            $row['device id'  ] = $value->getDeviceId();
-            $row['device name'] = $value->getDeviceName();
-            
-            $deviceArray[] = $row;
+        foreach($selectDevices as $device) {
+            $deviceArray[] = $device->getDeviceName();
         }
-        foreach ($deviceArray as $row) {
-            foreach($row as $key=>$value) {   
-                echo $key . ": ". $value . "<br />";
+
+        $this->view->assign('deviceArray', $deviceArray);
+
+        // if a device parameter was given
+        // filter device table by name
+        // then select all associated product ids with those devices
+        if ($deviceParam) {
+            $selectProductsByDevice = $deviceQuery
+                ->filterByDeviceName($deviceParam)
+                ->joinWithCompat()
+                    ->useCompatQuery()
+                        ->joinWithProduct()
+                    ->endUse()
+                ->find();
+
+            foreach ($selectProductsByDevice as $compat) {
+                $compat = $compat->getCompats();
+                foreach ($compat as $productId) {
+                    $deviceFilterArray[] = $productId->getProduct()->getProductId();
+                } 
             }
-            echo "<br />";
+        }
+        // if no device parameter was given
+        // select all associated product ids with all devices
+        else {
+            $selectProductsByDevice = $deviceQuery
+                ->joinWithCompat()
+                    ->useCompatQuery()
+                        ->joinWithProduct()
+                    ->endUse()
+                ->find();
+
+            foreach ($selectProductsByDevice as $compat) {
+                $compat = $compat->getCompats();
+                foreach ($compat as $productId) {
+                    $deviceFilterArray[] = $productId->getProduct()->getProductId();
+                } 
+            }
         }
 
-/*
-        $new2 = new CmsCategory();
-        $new2->setCatName('Newer');
-        $new3 = new UserMain();
-        $new3->setUserId(321);
-        $new3->setUserName('Jack');
-        $new3->setUserPass('SECRET');
-        $new3->setUserEmail('jack@email.com');
-*/
+        // query all category names and assign to list as search options
+        $categoryQuery = CategoryQuery::create();
 
+        $selectCategorys = $categoryQuery->find();
+        foreach($selectCategorys as $category) {
+            $categoryArray[] = $category->getCategoryName();
+        }
+
+        $this->view->assign('categoryArray', $categoryArray);
+
+        // if a category parameter was given
+        // filter category table by name
+        // then select all associated product ids with those category
+        $categoryFilterArray = array();
+        if ($categoryParam && $categoryParam != 'all') {
+            $selectProductsByCategory = $categoryQuery
+                ->filterByCategoryName($categoryParam)
+                ->joinWithProduct()
+                ->find();
+
+            foreach ($selectProductsByCategory as $products) {
+                $products = $products->getProducts();
+                foreach ($products as $productId) {
+                    $categoryFilterArray[] = $productId->getProductId();
+                }
+            }
+        }
+        // if no category parameter was given
+        // select all associated product ids with all categories
+        else {
+            $selectProductsByCategory = $categoryQuery
+                ->joinWithProduct()
+                ->find();
+
+            foreach ($selectProductsByCategory as $products) {
+                $products = $products->getProducts();
+                foreach ($products as $productId) {
+                    $categoryFilterArray[] = $productId->getProductId();
+                }
+            }
+        }
+
+        // intersect product ids from device parameter and product ids from category parameter
+        // filter product table by intersecting ids
+        $productQuery = ProductQuery::create();
+        $results = array_intersect($deviceFilterArray,$categoryFilterArray);
+
+        $selectProducts = $productQuery
+            ->filterByProductId($results)
+            ->find();
+
+        // if any products were selected
+        // prepare selected products for echo in view
+        // else print message
+        $productArray = array();
+        if($selectProducts->getFirst()){
+            
+            foreach($selectProducts as $product) {
+                $productRow = array();
+                $productRow['product-name' ] = $product->getProductName();
+                $productRow['product-image'] = '<img src="/images/' . $product->getProductImage() . '" />';
+                $productRow['product-price'] = '£' . $product->getProductPrice();
+                $productArray[] = $productRow;
+            }
+
+            $this->view->assign('productArray', $productArray);
+        }
+        else {
+            $this->view->assign('productArray', 'Unfortunately we do not have that type of product. Please check back later.');
+        }
     }
 }

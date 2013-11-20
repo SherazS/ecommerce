@@ -1,0 +1,116 @@
+body {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size: 14px;
+	color: #444;
+}
+
+a:link, a:visited, a:hover, a:active {
+	text-decoration: none;
+}
+
+#content {
+	width: 1006px;
+	margin: 0 auto;
+	padding-top: 30px;
+}
+
+#logo-div {
+	font-size: 50px;
+	color: #444;
+	width: 483px;
+	margin: 0 auto;
+}
+
+#logo-link {
+	color: #444;
+}
+
+#nav-div {
+	font-size: 24px;
+	width: 483px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.nav-item {
+	float: left;
+	background-color: #222;
+	width: 161px;
+	text-align: center;
+	padding-top: 3px;
+}
+
+.nav-link {
+	color: #fff;
+	text-transform: uppercase;
+}
+
+#main {
+	clear: both;
+	border-top: 6px solid #222;
+	padding-top: 30px;
+}
+
+#filter-list {
+	float: left;
+	margin: 0 0 20px 0;
+}
+
+.filter-title-div {
+	float: left;
+	margin-right: 10px;
+	background-color: #222;
+	padding: 4px;
+}
+
+.filter-title {
+	font-size: 20px;
+	color: #fff;
+}
+
+.filter-link-div {
+	float: left;
+	margin: 0 10px;
+	padding: 4px;
+}
+
+.filter-link, .filter-separator {
+	color: #444;
+	font-size: 20px;
+	padding: 3px 0;
+	text-transform: lowercase;
+}
+
+#product-list {
+	clear: both;
+	width: 1026px; /* = [columns x(width)] + [2 x columns x(border+padding+margin)] */
+	margin: 0 auto;
+}
+
+.product-item {
+	float: left;
+	border: 1px solid #ccc;
+	padding: 15px;
+	margin: 10px 20px 10px 0;
+	width: 290px;
+	text-align: center;
+}
+
+.product-name {
+	font-weight: 700;
+	height: 50px;
+	color: #444;
+}
+
+.product-price {
+	background-color: #222;
+	color: #fff;
+	width: 65px;
+	height: 30px;
+	padding-top: 12px;
+	margin: 20px auto 0;
+}
+
+#notice {
+	clear: both;
+}
