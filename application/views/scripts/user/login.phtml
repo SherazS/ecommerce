@@ -1,0 +1,23 @@
+<div id="main">
+	<div class="login-div">
+	<?php
+	if(isset($_SESSION['user'])) {
+		echo $_SESSION['user'] . ' is logged in';
+	}
+	?>
+	</div>
+	<div id="form-div">
+	<?php
+		if (isset($this->success)) {
+			echo 'User logged in successfully.';
+		}
+		elseif (isset($this->failure)) {
+			echo 'Incorrect credentials.';
+			echo $this->form;		
+		}
+		else {
+			echo $this->form;
+		}
+	?>
+	</div>
+</div>

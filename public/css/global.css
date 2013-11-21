@@ -14,6 +14,13 @@ a:link, a:visited, a:hover, a:active {
 	padding-top: 30px;
 }
 
+#form-div {
+	width: 451px;
+	margin: 0 auto;
+	border: 6px solid #222;
+	padding: 10px;
+}
+
 #logo-div {
 	font-size: 50px;
 	color: #444;
@@ -74,20 +81,27 @@ a:link, a:visited, a:hover, a:active {
 	padding: 4px;
 }
 
-.filter-link, .filter-separator {
+.filter-link-div a:hover {
+	border-bottom: 2px solid #444;;
+}
+
+.filter-link, .filter-separator, .user-name-div {
 	color: #444;
 	font-size: 20px;
 	padding: 3px 0;
+}
+
+.filter-link, .filter-separator {
 	text-transform: lowercase;
 }
 
-#product-list {
+#product-list, #user-list {
 	clear: both;
-	width: 1026px; /* = [columns x(width)] + [2 x columns x(border+padding+margin)] */
+	width: 1027px; /* = [columns x(width)] + [2 x columns x(border+padding+margin)] */
 	margin: 0 auto;
 }
 
-.product-item {
+.product-item, .user-item {
 	float: left;
 	border: 1px solid #ccc;
 	padding: 15px;
@@ -96,10 +110,19 @@ a:link, a:visited, a:hover, a:active {
 	text-align: center;
 }
 
-.product-name {
+.product-name, #product-page-name {
 	font-weight: 700;
 	height: 50px;
 	color: #444;
+}
+
+#product-page-name, #product-page-image {
+	width: 431px;
+	height: auto;
+	text-align: center;
+	margin: 0 auto 10px;
+	padding: 10px 0;
+	border: 1px solid #ccc;
 }
 
 .product-price {
@@ -111,6 +134,50 @@ a:link, a:visited, a:hover, a:active {
 	margin: 20px auto 0;
 }
 
-#notice {
-	clear: both;
+#product-page-item {
+	width: 431px;
+	margin: 0 auto;
+	border: 6px solid #222;
+	padding: 20px 20px 50px 20px;
+}
+
+.product-page-heading {
+	clear: left;
+	background-color: #222;
+	font-size: 16px;
+	color: #fff;
+	width: 151px;
+	height: 30px;
+	margin-bottom: 10px;
+	padding: 12px 0 0 12px;
+}
+
+.product-page-text {
+	float: left;
+	height: auto;
+	margin-bottom: 10px;
+	width: 411px;
+	padding: 10px 10px;
+	border: 1px solid #ccc;
+}
+
+.user-function-div {
+	width: 130px;
+	margin: 0 auto;
+	font-size: 20px;
+	text-align: center;
+}
+
+.user-link-div a, .product-name a {
+	color: #444;
+	text-decoration: underline;
+}
+
+.login-div {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.product-price a {
+	color: #fff;
 }

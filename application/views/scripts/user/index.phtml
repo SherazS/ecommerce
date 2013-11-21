@@ -1,14 +1,53 @@
 <div id="main">
-<?php
-foreach ($this->userArray as $row) {
-    foreach($row as $key=>$value) {   
-        echo $key . ": ". $value . "<br />";
-    }
-}
-?>
+	<div class="login-div">
+	<?php
+	session_start();
+	if(isset($_SESSION['user'])) {
+		echo $_SESSION['user'] . ' is logged in';
+	}
+	?>
+	</div>
+	<div class="user-link-div user-function-div">
+		<a href="
+		<?php
+			echo $this->url(
+			    array('controller'=>'user','action'=>'add'),'default',true
+			    )
+	    ?>">Add new user</a>
+	</div>
+	<div class="user-link-div user-function-div">
+		<a href="
+		<?php
+			echo $this->url(
+			    array('controller'=>'user','action'=>'login'),'default',true
+			    )
+	    ?>">Log in</a>
+	</div>
+	<div id="user-list">
+	<?php
+	foreach ($this->userArray as $row) {
+		echo '<div class="user-item">';
 
-<a href="<?php echo $this->url(
-    array('controller'=>'user','action'=>'add'),
-    'default',
-    true) ?>" id="link">Add users</a>
+		// foreach user print username
+		// and create edit/delete urls with user ids
+	    foreach($row as $key=>$value) {
+	    	if ($key == 'user-name') {
+		        echo '<div class="' . $key . '-div"><span class="' . $key . '-span">' .
+		        	$value . '</span></div>';
+			}
+
+			if ($key == 'user-id') {
+	        	echo "<div class=\"user-link-div\"><a href=" . $this->url(
+				    array('controller'=>'user','action'=>'edit'),'default',true
+				    ) . "/" . $value . ">Edit user</a></div>";
+	        	echo "<div class=\"user-link-div\"><a href=" . $this->url(
+				    array('controller'=>'user','action'=>'delete'),'default',true
+				    ) . "/" . $value . ">Delete user</a></div>";
+	        }
+
+	    }
+	    echo '</div>';
+	}
+	?>
+	</div>
 </div>

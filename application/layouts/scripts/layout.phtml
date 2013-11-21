@@ -1,11 +1,11 @@
 <!-- application/layouts/scripts/layout.phtml -->
 <?php echo $this->doctype() ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Mini eCommerce Site</title>
   <?php echo $this->headLink()->appendStylesheet('/css/global.css') ?>
-
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 </head>
 <body>
 <div id="content">
@@ -39,14 +39,6 @@
   </div>
  
   <?php echo $this->layout()->content ?>
- 
-  <div id="notice"><br />
-      <span>vagrant ssh</span><br />
-      <span>mysqladmin -u root -psqlpass create mycms</span><br />
-      <span>mysql -u root -psqlpass mycms &lt; /var/www/build/sql/schema.sql</span><br />
-      <span>mysql -u root -psqlpass mycms &lt; /var/www/build/sql/load.sql</span><br />
-      <span>sudo apt-get install php5-mcrypt</span>
-  </div>
 </div>
 </body>
 </html>

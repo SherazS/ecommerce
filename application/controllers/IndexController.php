@@ -13,6 +13,9 @@ class IndexController extends Zend_Controller_Action
         // get and set search parameters
         $categoryParam = $this->getRequest()->getParam('category');
         $deviceParam = $this->getRequest()->getParam('device');
+        if ($categoryParam == 'angular') {
+            return $this->forward('angular');
+        }
         $this->view->assign('selectedCategory', $categoryParam);
         $this->view->assign('selectedDevice', $deviceParam);
 
@@ -123,16 +126,21 @@ class IndexController extends Zend_Controller_Action
             
             foreach($selectProducts as $product) {
                 $productRow = array();
+                $productRow['product-id'] = $product->getProductId();
                 $productRow['product-name' ] = $product->getProductName();
                 $productRow['product-image'] = '<img src="/images/' . $product->getProductImage() . '" />';
                 $productRow['product-price'] = '£' . $product->getProductPrice();
                 $productArray[] = $productRow;
             }
-
+            
             $this->view->assign('productArray', $productArray);
         }
         else {
             $this->view->assign('productArray', 'Unfortunately we do not have that type of product. Please check back later.');
         }
+    }
+
+    public function angularAction()
+    {
     }
 }

@@ -1,36 +1,38 @@
 <div id="main">
 	<div id="filter-list">
-	<?php
-	// echo $this->foo;
-	echo '<div class="filter-title-div"><span class="filter-title">by category</span></div>';
-	foreach ($this->categoryArray as $category) {
-		$style = '';
-		$url = $this->selectedDevice;
-		$action = $category;
+		<div class="filter-title-div"><span class="filter-title">by category</span></div>
+		<?php
+		foreach ($this->categoryArray as $category):
+			$style = '';
+			$url = $this->selectedDevice;
+			$action = $category;
+			if ($category == $this->selectedCategory) {
+	        	$style = ' style="border-bottom: 2px solid #444;"';
+	        	$action = 'all';
+	        }
+		?>
 
-		if ($category == $this->selectedCategory) {
-        	$style = ' style="border-bottom: 2px solid #444;"';
-        	$action = 'all';
-        }
-
-        echo "\n<div class=\"filter-link-div\">\n<a href=\"" .
-        	$this->url(
+        <div class="filter-link-div">
+        	<a href="
+			<?php
+			echo $this->url(
             array('controller'=>'index', 'action'=> $action),
-            'default',
-            true) . '/' . $url . "\" class=\"filter-link\"";
+            'default',true) . '/' . $url; ?>" class="filter-link";
 
-        echo $style;
+        	<?php echo $style . ">" . $category; ?>
 
-        echo ">" . $category . "</a>\n</div>\n<div class=\"filter-link-div\">\n<span class=\"filter-separator\">|</span>\n</div>";
-	}
-	?>
+        	</a>
+        </div>
+        <div class="filter-link-div">
+        	<span class="filter-separator">|</span>
+        </div>
+		<?php endforeach; ?>
 	</div>
 
 	<div id="filter-list">
+	<div class="filter-title-div"><span class="filter-title">by device</span></div>
 	<?php
-	// echo $this->foo;
-	echo '<div class="filter-title-div"><span class="filter-title">by device</span></div>';
-	foreach ($this->deviceArray as $device) {
+	foreach ($this->deviceArray as $device):
 		$style = '';
 		$url = $device;
 		$action = 'all';
@@ -38,32 +40,60 @@
         	$style = 'style="border-bottom: 2px solid #444;"';
         	$url = '';
         }
-		
 
 		if($this->selectedCategory) {
 			$action = $this->selectedCategory;
 		}
-
-        echo "\n<div class=\"filter-link-div\">\n<a href=\"" . 
-        	$this->url(
-            array('controller'=>'index', 'action'=> $action),
-            'default',
-            true) . '/' . $url . "\" class=\"filter-link\"";
-
-        echo $style;
-
-        echo ">" . $device . "</a>\n</div>\n<div class=\"filter-link-div\">\n<span class=\"filter-separator\">|</span>\n</div>";
-	}
 	?>
+	<div class="filter-link-div">
+		<a href="
+	<?php echo $this->url(
+            array('controller'=>'index', 'action'=> $action),
+            'default',true) . '/' . $url;?>" class="filter-link"
+
+        <?php echo $style . ">" . $device; ?>
+   		</a>
+	</div>
+	<div class="filter-link-div">
+		<span class="filter-separator">|</span>
+	</div>
+	<?php endforeach;?>
 	</div>
 
 	<div id="product-list">
 	<?php
+	// class that retrieves and stores product id
+	// for reuse as URL across multiple product items
+	class Url {
+		protected $id;
+
+		public function __construct($id) {
+			$this->id = $id;
+		}
+
+		public function createUrl() {
+			return $this->id;
+		}
+	}
+	
 	if(is_array($this->productArray)) {
 		foreach ($this->productArray as $product) {
 		    echo '<div class="product-item">';
+
 		    foreach ($product as $columnName=>$columnValue) {
-		            echo '<div class="' . $columnName . '">' . $columnValue . "</div>\n";
+		    	// if product-id is retrieved store it
+		    	// else print product properties
+			    if ($columnName == 'product-id') {
+					$productUrl = new Url($columnValue);
+		    		$productUrl = $productUrl->createUrl();
+				}
+				else {
+		        echo '<div class="' . $columnName . '">';
+				echo '<a href="' .
+		        	$this->url(
+		            array('controller'=>'product', 'action'=> $productUrl),
+		            'default',true) . '">' . $columnValue . "</a></div>\n";
+				}
 		    }
 		    echo "</div>\n";
 		}
@@ -74,25 +104,3 @@
 	?>
 	</div>
 </div>
-
-
-<?php
-/*
-function create_hash($password)
-{
-    // format: algorithm:iterations:salt:hash
-    $salt = base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM));
-    return 'Salt: ' . $salt . '<br />' . 
-           'Hash: ' . hash('sha256', $salt . $password);
-}
-
-function retrieve($salt, $password)
-{
-    return hash('sha256', $salt . $password);
-}
-
-echo create_hash('password') . '<br />';
-echo 'Hash: ' . retrieve('zfQMEzdpm7HXsk8yx7l87w==', 'password');
-echo '<br />Hash: be46e8c0974dc0bd5293f98bd9434255cc48353be13466ee6014c6a9810ca882';
-*/
-?>

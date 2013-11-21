@@ -10,29 +10,36 @@ class ProductController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $query = ProductQuery::create()
-        ->joinWithCompat()
-        ->useCompatQuery()
-        ->joinWithDevice()
-        ->endUse();
-        $select = $query->find();
-        $productArray = array();
-        echo '<pre>' . $select;
-        echo '<br />' . $select[0]->getCompats();
-/*
-        foreach($select as $value) {
-            $row = array();
-            $row['product id'           ] = $value->getProductId();
-            $row['product category id'  ] = $value->getProductCategoryId();
-            $row['product category name'] = $value->getCategory()->getCategoryName();
-            $row['product name'         ] = $value->getProductName();
-            $row['test'] = $value->getCompats()->getDevice()->getDeviceName();
-            $productArray[] = $row;
-        }*/
-        $this->view->assign('productArray', $productArray);
-    }
+        // get and set search parameters
+        $idParam = $this->getRequest()->getParam('product_id');
 
-    public function addAction()
-    {
+        $productQuery = ProductQuery::create();
+
+        $selectProduct = $productQuery->findOneByProductId($idParam);
+
+        // if a product was selected
+        // prepare selected product for echo in view
+        // else print message
+        //
+        // Find a neater solution to styling?
+        $productArray = array();
+        if($selectProduct) {
+            $productArray['product-page-name' ] = '<div id="product-page-name">' .
+                                                $selectProduct->getProductName() . '</div>';
+            $productArray['product-page-image'] = '<div id="product-page-image"><img src="/images/' .
+                                                $selectProduct->getProductImage() . '" /></div>';
+            $productArray['product-page-id'] = '<div class="product-page-heading">Product ID </div><div class="product-page-text">' .
+                                                $selectProduct->getProductId() . '</div>';
+            $productArray['product-page-description'] = '<div class="product-page-heading">Product Description</div><div class="product-page-text">' .
+                                                $selectProduct->getProductDescription() . '</div>';
+            $productArray['product-page-quantity'] = '<div class="product-page-heading">Product Quantity</div><div class="product-page-text">' .
+                                                $selectProduct->getProductQuantity() . '</div>';
+            $productArray['product-page-price'] = '<div class="product-page-heading">Product Price</div><div class="product-page-text">' .
+                                                '£' . $selectProduct->getProductPrice() . '</div>';
+            $this->view->assign('productArray', $productArray);
+        }
+        else {
+            $this->view->assign('productArray', 'Unfortunately we could not find your product. Please try again.');
+        }
     }
 }

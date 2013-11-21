@@ -496,4 +496,3 @@ define mysql_nginx_default_conf (
     notify       => Class['nginx::service'],
   }
 }
-

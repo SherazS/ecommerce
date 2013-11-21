@@ -105,5 +105,4 @@ mysql:
             host: localhost
             user: sheraz
             password: dbpass
-            sql_file: ''
-
+            sql_file: '/var/www/build/sql/vagrant.sql'
